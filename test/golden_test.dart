@@ -26,28 +26,24 @@ void main() {
   /// category id -> (spec, theme, space-separated sample value)
   final Map<String, (PlateSpec, PlateTheme, String)> cases =
       <String, (PlateSpec, PlateTheme, String)>{
-        'private': (SpainPlates.private, SpainThemes.private, '2 0 0 8 Z G Z'),
-        'taxi': (SpainPlates.taxi, SpainThemes.taxi, '6 3 3 4 H R D'),
-        'trailer': (SpainPlates.trailer, SpainThemes.trailer, '7 2 8 6 B B W'),
+        'private': (SpainPlates.private, SpainThemes.private, '2008 ZGZ'),
+        'taxi': (SpainPlates.taxi, SpainThemes.taxi, '6334 HRD'),
+        'trailer': (SpainPlates.trailer, SpainThemes.trailer, '7286 BBW'),
         'provisional': (
           SpainPlates.provisional,
           SpainThemes.provisional,
-          '1 5 8 8 B B S',
+          '1588 BBS',
         ),
         'diplomatic': (
-          SpainPlates.diplomaticFor(1),
+          SpainPlates.diplomatic,
           SpainThemes.diplomatic,
-          'C D 1 0 0 1',
+          'CD 1 001',
         ),
-        'consular': (
-          SpainPlates.diplomaticFor(2),
-          SpainThemes.consular,
-          'C C 1 0 0 1 4',
-        ),
+        'consular': (SpainPlates.diplomatic, SpainThemes.consular, 'CC 10 014'),
         'organisation': (
           SpainPlates.diplomatic,
           SpainThemes.organisation,
-          'O I 3 0 3 0 7 3',
+          'OI 303 073',
         ),
       };
 

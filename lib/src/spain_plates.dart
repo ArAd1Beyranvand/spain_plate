@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart' show EdgeInsets;
 import 'package:plate_alphabet/plate_alphabet.dart';
 import 'package:plate_core/plate_core.dart';
@@ -68,7 +70,7 @@ class _Row {
 ///
 /// [private] is the current series, `1234 BCD` black on white with the EU
 /// band; [taxi], [trailer] and [provisional] are single-colour fields with no
-/// band, and [diplomatic] (a [diplomaticFor] with a three-digit embassy code)
+/// band, and [diplomatic] (embassy code of one to three digits)
 /// pairs with [SpainThemes.diplomatic], [SpainThemes.consular] or
 /// [SpainThemes.organisation].
 ///
@@ -108,48 +110,31 @@ abstract final class SpainPlates {
     _Layout.lead,
     lead: 'P',
   );
-  static final PlateSpec diplomatic = diplomaticFor(3);
-
-  /// A diplomatic plate with [embassyDigits] (1–3) digits of embassy or
-  /// organisation code between the prefix and the car number.
-  static PlateSpec diplomaticFor(int embassyDigits) {
-    if (embassyDigits < 1 || embassyDigits > 3) {
-      throw ArgumentError.value(embassyDigits, 'embassyDigits', 'One to three');
-    }
-    return _spec(
-      id: 'es.diplomatic.$embassyDigits',
-      slots: <PlateSlot>[
-        ..._group(
-          SpainAlphabets.diplomaticLetters,
-          2,
-          _Layout.dipLetterCx,
-          _Layout.dipLetterPitch,
-        ),
-        ..._group(
-          SpainAlphabets.digits,
-          embassyDigits,
-          _Layout.dipEmbassyEnd - (embassyDigits - 1) * _Layout.dipPitch,
-          _Layout.dipPitch,
-        ),
-        ..._group(
-          SpainAlphabets.digits,
-          3,
-          _Layout.dipNumberCx,
-          _Layout.dipPitch,
-        ),
-      ],
-      groups: <PlateTextGroup>[
-        const PlateTextGroup(<int>[0, 1], key: 'code'),
-        PlateTextGroup(<int>[
-          for (int i = 0; i < embassyDigits; i++) 2 + i,
-        ], key: 'embassy'),
-        PlateTextGroup(<int>[
-          for (int i = 0; i < 3; i++) 2 + embassyDigits + i,
-        ], key: 'number'),
-      ],
-      restrictions: const <PlateRestriction>[israel],
-    );
-  }
+  static final PlateSpec diplomatic = _spec(
+    id: 'es.diplomatic',
+    slots: <PlateSlot>[
+      _run(
+        SpainAlphabets.diplomaticLetters,
+        2,
+        _Layout.dipLetterCx,
+        _Layout.dipLetterPitch,
+      ),
+      _run(
+        SpainAlphabets.digits,
+        3,
+        _Layout.dipEmbassyEnd - 2 * _Layout.dipPitch,
+        _Layout.dipPitch,
+        minLength: 1,
+      ),
+      _run(SpainAlphabets.digits, 3, _Layout.dipNumberCx, _Layout.dipPitch),
+    ],
+    groups: const <PlateTextGroup>[
+      PlateTextGroup(<int>[0], key: 'code'),
+      PlateTextGroup(<int>[1], key: 'embassy'),
+      PlateTextGroup(<int>[2], key: 'number'),
+    ],
+    restrictions: const <PlateRestriction>[israel],
+  );
 
   static List<PlateSpec> get all => <PlateSpec>[
     private,
@@ -159,18 +144,20 @@ abstract final class SpainPlates {
     diplomatic,
   ];
 
-  static List<PlateSlot> _group(
+  /// One field of [count] characters whose first cell is centred on
+  /// [firstCx]; a variable field (`minLength`) keeps spacing 0.
+  static PlateSlot _run(
     PlateAlphabet alphabet,
     int count,
     double firstCx,
-    double pitch,
-  ) => plateRegister(
+    double pitch, {
+    int? minLength,
+  }) => PlateSlot(
     alphabet: alphabet,
-    count: count,
-    left: firstCx - pitch / 2,
-    top: _Layout.top,
-    width: pitch,
-    height: _Layout.box,
+    box: PlateBox(firstCx - pitch / 2, _Layout.top, count * pitch, _Layout.box),
+    length: count,
+    minLength: minLength,
+    spacing: minLength == null ? max(0, pitch - 0.6 * 0.72 * _Layout.box) : 0,
   );
 
   static PlateSpec _registration(
@@ -182,12 +169,12 @@ abstract final class SpainPlates {
     id: id,
     band: band,
     slots: <PlateSlot>[
-      ..._group(SpainAlphabets.digits, 4, row.digitCx, row.digitPitch),
-      ..._group(SpainAlphabets.letters, 3, row.letterCx, row.letterPitch),
+      _run(SpainAlphabets.digits, 4, row.digitCx, row.digitPitch),
+      _run(SpainAlphabets.letters, 3, row.letterCx, row.letterPitch),
     ],
     groups: const <PlateTextGroup>[
-      PlateTextGroup(<int>[0, 1, 2, 3], key: 'number'),
-      PlateTextGroup(<int>[4, 5, 6], key: 'letters'),
+      PlateTextGroup(<int>[0], key: 'number'),
+      PlateTextGroup(<int>[1], key: 'letters'),
     ],
     labels: <PlateLabel>[
       if (lead != null)
