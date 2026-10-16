@@ -11,9 +11,6 @@ abstract final class SpainCountry {
     panelColor: SpainColors.euroBlue,
     panelTextColor: SpainColors.white,
     flagAspectRatio: 46 / 70.4,
-    flag: SvgPlateAsset(
-      'assets/flags/Flag_of_Europe.svg',
-      package: 'plate_core',
-    ),
+    flag: EuropeanStars.band,
   );
 }
