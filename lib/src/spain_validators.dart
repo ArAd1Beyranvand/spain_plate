@@ -20,6 +20,8 @@ class SpainValidator extends GatedPlateValidator {
       'The embassy code is one to three digits.';
   static const String reasonCar = 'The car number is three digits.';
 
+  static final RegExp _consonants = RegExp(r'^[BCDFGHJKLMNPRSTVWXYZ]{3}$');
+
   @override
   PlateValidation judge(PlateEntry entry) {
     final String code = entry.group('code');
@@ -39,9 +41,7 @@ class SpainValidator extends GatedPlateValidator {
     if (!isDigitsOfLength(entry.group('number'), 4)) {
       return const PlateValidation.invalid(reasonNumber);
     }
-    if (!RegExp(
-      r'^[BCDFGHJKLMNPRSTVWXYZ]{3}$',
-    ).hasMatch(entry.group('letters'))) {
+    if (!_consonants.hasMatch(entry.group('letters'))) {
       return const PlateValidation.invalid(reasonLetters);
     }
     return const PlateValidation.valid();
