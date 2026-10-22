@@ -11,19 +11,10 @@ import 'spain_colors.dart';
 /// looking at the flats.
 abstract final class SpainThemes {
   /// Registration plate: black on white, with the euroband.
-  static final PlateTheme private = _framed(
-    SpainColors.white,
-    SpainColors.black,
-  );
+  static final PlateTheme private = _framed(SpainColors.white, SpainColors.black);
 
-  static final PlateTheme taxi = _flat(
-    SpainColors.taxiBlue,
-    SpainColors.taxiInk,
-  );
-  static final PlateTheme trailer = _flat(
-    SpainColors.trailerRed,
-    SpainColors.trailerInk,
-  );
+  static final PlateTheme taxi = _flat(SpainColors.taxiBlue, SpainColors.taxiInk);
+  static final PlateTheme trailer = _flat(SpainColors.trailerRed, SpainColors.trailerInk);
   static final PlateTheme provisional = _flat(
     SpainColors.provisionalTeal,
     SpainColors.provisionalInk,
@@ -36,10 +27,7 @@ abstract final class SpainThemes {
   );
 
   /// `CC`, consular.
-  static final PlateTheme consular = _flat(
-    SpainColors.consularGreen,
-    SpainColors.consularGreenInk,
-  );
+  static final PlateTheme consular = _flat(SpainColors.consularGreen, SpainColors.consularGreenInk);
 
   /// `OI`, international organisation.
   static final PlateTheme organisation = _flat(

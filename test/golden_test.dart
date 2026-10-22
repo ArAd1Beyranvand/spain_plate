@@ -29,32 +29,16 @@ void main() {
         'private': (SpainPlates.private, SpainThemes.private, '2008 ZGZ'),
         'taxi': (SpainPlates.taxi, SpainThemes.taxi, '6334 HRD'),
         'trailer': (SpainPlates.trailer, SpainThemes.trailer, '7286 BBW'),
-        'provisional': (
-          SpainPlates.provisional,
-          SpainThemes.provisional,
-          '1588 BBS',
-        ),
-        'diplomatic': (
-          SpainPlates.diplomatic,
-          SpainThemes.diplomatic,
-          'CD 1 001',
-        ),
+        'provisional': (SpainPlates.provisional, SpainThemes.provisional, '1588 BBS'),
+        'diplomatic': (SpainPlates.diplomatic, SpainThemes.diplomatic, 'CD 1 001'),
         'consular': (SpainPlates.diplomatic, SpainThemes.consular, 'CC 10 014'),
-        'organisation': (
-          SpainPlates.diplomatic,
-          SpainThemes.organisation,
-          'OI 303 073',
-        ),
+        'organisation': (SpainPlates.diplomatic, SpainThemes.organisation, 'OI 303 073'),
       };
 
-  for (final MapEntry<String, (PlateSpec, PlateTheme, String)> c
-      in cases.entries) {
+  for (final MapEntry<String, (PlateSpec, PlateTheme, String)> c in cases.entries) {
     testWidgets(c.key, (tester) async {
       final (PlateSpec spec, PlateTheme theme, String values) = c.value;
-      final PlateController controller = PlateController.fromValues(
-        spec,
-        values.split(' '),
-      );
+      final PlateController controller = PlateController.fromValues(spec, values.split(' '));
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -76,10 +60,7 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      await expectLater(
-        find.byType(PlateView),
-        matchesGoldenFile('goldens/es_${c.key}.png'),
-      );
+      await expectLater(find.byType(PlateView), matchesGoldenFile('goldens/es_${c.key}.png'));
       await tester.pumpWidget(const SizedBox.shrink());
       controller.dispose();
     });

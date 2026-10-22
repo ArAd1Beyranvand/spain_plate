@@ -13,11 +13,9 @@ class SpainValidator extends GatedPlateValidator {
   String get gateGroup => 'number';
 
   static const String reasonNumber = 'The number is four digits.';
-  static const String reasonLetters =
-      'The counter is three consonants (no vowels, no Q).';
+  static const String reasonLetters = 'The counter is three consonants (no vowels, no Q).';
   static const String reasonCode = 'The prefix is CD, CC, TA or OI.';
-  static const String reasonEmbassy =
-      'The embassy code is one to three digits.';
+  static const String reasonEmbassy = 'The embassy code is one to three digits.';
   static const String reasonCar = 'The car number is three digits.';
 
   static final RegExp _consonants = RegExp(r'^[BCDFGHJKLMNPRSTVWXYZ]{3}$');

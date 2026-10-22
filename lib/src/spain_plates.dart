@@ -94,31 +94,14 @@ abstract final class SpainPlates {
     reason: notFound,
   );
 
-  static final PlateSpec private = _registration(
-    'es.private',
-    _Layout.euro,
-    band: true,
-  );
+  static final PlateSpec private = _registration('es.private', _Layout.euro, band: true);
   static final PlateSpec taxi = _registration('es.taxi', _Layout.taxi);
-  static final PlateSpec trailer = _registration(
-    'es.trailer',
-    _Layout.lead,
-    lead: 'R',
-  );
-  static final PlateSpec provisional = _registration(
-    'es.provisional',
-    _Layout.lead,
-    lead: 'P',
-  );
+  static final PlateSpec trailer = _registration('es.trailer', _Layout.lead, lead: 'R');
+  static final PlateSpec provisional = _registration('es.provisional', _Layout.lead, lead: 'P');
   static final PlateSpec diplomatic = _spec(
     id: 'es.diplomatic',
     slots: <PlateSlot>[
-      _run(
-        SpainAlphabets.diplomaticLetters,
-        2,
-        _Layout.dipLetterCx,
-        _Layout.dipLetterPitch,
-      ),
+      _run(SpainAlphabets.diplomaticLetters, 2, _Layout.dipLetterCx, _Layout.dipLetterPitch),
       _run(
         SpainAlphabets.digits,
         3,
@@ -136,13 +119,7 @@ abstract final class SpainPlates {
     restrictions: const <PlateRestriction>[israel],
   );
 
-  static List<PlateSpec> get all => <PlateSpec>[
-    private,
-    taxi,
-    trailer,
-    provisional,
-    diplomatic,
-  ];
+  static List<PlateSpec> get all => <PlateSpec>[private, taxi, trailer, provisional, diplomatic];
 
   /// One field of [count] characters whose first cell is centred on
   /// [firstCx]; a variable field (`minLength`) keeps spacing 0.
@@ -160,12 +137,7 @@ abstract final class SpainPlates {
     spacing: minLength == null ? max(0, pitch - 0.6 * 0.72 * _Layout.box) : 0,
   );
 
-  static PlateSpec _registration(
-    String id,
-    _Row row, {
-    bool band = false,
-    String? lead,
-  }) => _spec(
+  static PlateSpec _registration(String id, _Row row, {bool band = false, String? lead}) => _spec(
     id: id,
     band: band,
     slots: <PlateSlot>[
@@ -226,12 +198,7 @@ abstract final class SpainPlates {
       if (band)
         const PlateLabel(
           text: 'E',
-          box: PlateBox(
-            _Layout.eLeft,
-            _Layout.eTop,
-            _Layout.eWidth,
-            _Layout.eHeight,
-          ),
+          box: PlateBox(_Layout.eLeft, _Layout.eTop, _Layout.eWidth, _Layout.eHeight),
           glyphHeight: _Layout.eGlyph,
           color: SpainColors.white,
         ),
